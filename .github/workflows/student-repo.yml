@@ -1,0 +1,51 @@
+name: Create Student Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      first_name:
+        description: "First Name"
+        required: true
+        type: string
+      middle_name:
+        description: "Middle Name (Optional)"
+        required: false
+        type: string
+      last_name:
+        description: "Last Name"
+        required: true
+        type: string
+      email:
+        description: "Email"
+        required: true
+        type: string
+      member_id:
+        description: "Member ID"
+        required: true
+        type: string
+
+jobs:
+  create-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout student-onboard repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run repo creation script
+        env:
+          FIRST_NAME: ${{ inputs.first_name }}
+          MIDDLE_NAME: ${{ inputs.middle_name }}
+          LAST_NAME: ${{ inputs.last_name }}
+          EMAIL: ${{ inputs.email }}
+          MEMBER_ID: ${{ inputs.member_id }}
+          GITHUB_TOKEN: ${{ secrets.ORG_ADMIN_TOKEN }}
+        run: python .github/scripts/create_repo.py
