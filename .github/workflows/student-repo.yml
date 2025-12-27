@@ -48,4 +48,4 @@ jobs:
           EMAIL: ${{ inputs.email }}
           MEMBER_ID: ${{ inputs.member_id }}
           GITHUB_TOKEN: ${{ secrets.ORG_ADMIN_TOKEN }}
-        run: python .github/scripts/create_repo.py
+        run: python scripts/create_repo.py
